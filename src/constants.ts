@@ -1,20 +1,20 @@
-import { 
-  Code2, 
-  Layout, 
-  Database, 
-  Cpu, 
-  ShieldCheck, 
-  Cloud, 
-  Smartphone, 
-  Globe, 
-  Zap, 
-  MessageSquare, 
-  CreditCard, 
-  Settings, 
-  Github, 
-  Linkedin, 
-  Mail, 
-  MapPin 
+import {
+  Code2,
+  Layout,
+  Database,
+  Cpu,
+  ShieldCheck,
+  Cloud,
+  Smartphone,
+  Globe,
+  Zap,
+  MessageSquare,
+  CreditCard,
+  Settings,
+  Github,
+  Linkedin,
+  Mail,
+  MapPin
 } from 'lucide-react';
 
 export const PERSONAL_INFO = {
@@ -25,7 +25,7 @@ export const PERSONAL_INFO = {
   location: "Chennai, India",
   email: "mrvijayalaya2002@gmail.com",
   phone: "+91 8248732972",
-  github: "https://github.com/vijayalaya1611",
+  github: "https://github.com/vijayalaya1611/Vijayalaya",
   linkedin: "https://www.linkedin.com/in/vijayalaya-m-r-379b442a1/",
 };
 
