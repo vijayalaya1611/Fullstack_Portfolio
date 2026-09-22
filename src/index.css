@@ -15,6 +15,11 @@
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+
   body {
     @apply bg-[var(--background-dark)] text-white font-sans antialiased selection:bg-[var(--color-brand-primary)] selection:text-black;
   }
@@ -29,12 +34,175 @@
     @apply bg-white/5 backdrop-blur-xl border border-white/10;
   }
   
+  .glass-card {
+    background: rgba(13, 13, 16, 0.75);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
   .text-gradient {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-[var(--color-brand-primary)] to-[var(--color-brand-secondary)];
+  }
+
+  .text-gradient-purple {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[var(--color-brand-secondary)] via-white to-[var(--color-brand-primary)];
   }
   
   .border-gradient {
     border-image: linear-gradient(to right, var(--color-brand-primary), var(--color-brand-secondary)) 1;
   }
+
+  .bg-cyber-grid {
+    background-size: 40px 40px;
+    background-image: 
+      linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  }
+
+  .bg-cyber-dots {
+    background-size: 24px 24px;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  }
+
+  .header-glow {
+    position: relative;
+  }
+  
+  .header-glow::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    transform: translateY(-50%);
+    width: 260px;
+    height: 120px;
+    background: radial-gradient(circle, rgba(204, 255, 0, 0.12) 0%, rgba(0, 240, 255, 0.06) 50%, transparent 80%);
+    filter: blur(40px);
+    z-index: -1;
+    pointer-events: none;
+    animation: headerPulse 6s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes headerPulse {
+  0% {
+    transform: translateY(-50%) scale(0.9);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-50%) scale(1.2) translateX(20px);
+    opacity: 1;
+  }
+}
+
+@keyframes floatOrb {
+  0%, 100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  50% {
+    transform: translate(25px, -35px) scale(1.1);
+  }
+}
+
+@keyframes pulseBorder {
+  0%, 100% {
+    border-color: rgba(204, 255, 0, 0.2);
+  }
+  50% {
+    border-color: rgba(0, 240, 255, 0.5);
+  }
+}
+/* LightPillar crosswise / diagonal side-to-side slide */
+@keyframes pillarDiagonalSlide {
+  0% {
+    transform: translateX(-50%) translate3d(-70px, -24px, 0) rotate(-1.5deg);
+  }
+  25% {
+    transform: translateX(-50%) translate3d(-20px, 14px, 0) rotate(0.6deg);
+  }
+  50% {
+    transform: translateX(-50%) translate3d(70px, 24px, 0) rotate(1.5deg);
+  }
+  75% {
+    transform: translateX(-50%) translate3d(20px, -14px, 0) rotate(-0.6deg);
+  }
+  100% {
+    transform: translateX(-50%) translate3d(-70px, -24px, 0) rotate(-1.5deg);
+  }
+}
+
+/* Diagonal ambient drift for glowing orbs */
+@keyframes ambientDiagonalDrift {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(45px, -35px, 0) scale(1.12);
+  }
+}
+
+@keyframes ambientDiagonalDriftAlt {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-40px, 35px, 0) scale(1.15);
+  }
+}
+
+@keyframes ambientBreath {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(0.96);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes beamGlow {
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+.section-ambient-about {
+  background: 
+    radial-gradient(ellipse 75% 55% at 85% 15%, rgba(112, 0, 255, 0.15) 0%, transparent 65%),
+    radial-gradient(ellipse 65% 45% at 10% 85%, rgba(204, 255, 0, 0.08) 0%, transparent 60%),
+    linear-gradient(180deg, rgba(10, 12, 20, 0.6) 0%, rgba(5, 5, 5, 0.95) 100%);
+}
+
+.section-ambient-services {
+  background: 
+    radial-gradient(ellipse 75% 55% at 15% 20%, rgba(0, 240, 255, 0.14) 0%, transparent 65%),
+    radial-gradient(ellipse 65% 50% at 85% 80%, rgba(112, 0, 255, 0.11) 0%, transparent 60%),
+    linear-gradient(180deg, rgba(8, 15, 25, 0.55) 0%, rgba(5, 5, 5, 0.95) 100%);
+}
+
+.section-ambient-skills {
+  background: 
+    radial-gradient(ellipse 75% 55% at 80% 25%, rgba(112, 0, 255, 0.15) 0%, transparent 65%),
+    radial-gradient(ellipse 65% 45% at 20% 75%, rgba(0, 240, 255, 0.09) 0%, transparent 60%),
+    linear-gradient(180deg, rgba(12, 10, 22, 0.55) 0%, rgba(5, 5, 5, 0.95) 100%);
+}
+
+.section-ambient-projects {
+  background: 
+    radial-gradient(ellipse 85% 55% at 50% 10%, rgba(0, 240, 255, 0.15) 0%, transparent 65%),
+    radial-gradient(ellipse 70% 50% at 10% 75%, rgba(204, 255, 0, 0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 90% 65%, rgba(112, 0, 255, 0.12) 0%, transparent 60%),
+    linear-gradient(180deg, rgba(10, 18, 30, 0.6) 0%, rgba(5, 5, 5, 0.95) 100%);
+}
+
+.section-ambient-experience {
+  background: 
+    radial-gradient(ellipse 75% 55% at 25% 25%, rgba(112, 0, 255, 0.14) 0%, transparent 65%),
+    radial-gradient(ellipse 65% 45% at 75% 75%, rgba(0, 240, 255, 0.10) 0%, transparent 60%),
+    linear-gradient(180deg, rgba(10, 12, 20, 0.55) 0%, rgba(5, 5, 5, 0.95) 100%);
 }
 
