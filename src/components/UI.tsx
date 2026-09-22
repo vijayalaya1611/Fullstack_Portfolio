@@ -14,17 +14,39 @@ import {
   Bot, 
   Building2, 
   Factory,
-  ChevronRight
+  ChevronRight,
+  Menu,
+  X
 } from 'lucide-react';
 
 export { default as LightPillar } from './LightPillar';
 
 export function Navbar() {
-  const navItems = ['About', 'Services', 'Skills', 'Projects', 'Experience', 'Contact'];
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const navItems = [
+    { label: 'Home', href: '#hero' },
+    { label: 'About', href: '#about' },
+    { label: 'Services', href: '#services' },
+    { label: 'Skills', href: '#skills' },
+    { label: 'Projects', href: '#projects' },
+    { label: 'Experience', href: '#experience' },
+    { label: 'Contact', href: '#contact' },
+  ];
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
+    setMobileMenuOpen(false);
     const targetId = href.replace('#', '');
+    
+    if (targetId === 'hero' || targetId === 'home') {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+      window.history.pushState(null, '', '#hero');
+      return;
+    }
+
     const element = document.getElementById(targetId);
     if (element) {
       const navOffset = 85;
@@ -44,29 +66,27 @@ export function Navbar() {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className="fixed top-0 left-0 right-0 z-50 flex justify-center p-3 sm:p-4 md:p-6 pointer-events-none"
+      className="fixed top-0 left-0 right-0 z-50 flex flex-col items-center p-3 sm:p-4 md:p-6 pointer-events-none"
     >
-      <div className="glass px-5 sm:px-7 md:px-8 py-2.5 sm:py-3 rounded-full flex items-center gap-4 sm:gap-6 md:gap-8 shadow-2xl border border-white/15 backdrop-blur-2xl pointer-events-auto">
-        <div className="flex items-center gap-3 sm:gap-5 md:gap-6">
-          {navItems.map((item) => {
-            const href = `#${item.toLowerCase()}`;
-            return (
-              <a 
-                key={item} 
-                href={href}
-                onClick={(e) => handleNavClick(e, href)}
-                className="text-xs sm:text-[13px] md:text-sm font-medium text-white/70 hover:text-white hover:text-[var(--color-brand-primary)] transition-colors cursor-pointer"
-              >
-                {item}
-              </a>
-            );
-          })}
+      {/* Desktop & Tablet Pill */}
+      <div className="hidden md:flex glass px-6 lg:px-8 py-3 rounded-full items-center gap-6 lg:gap-8 shadow-2xl border border-white/15 backdrop-blur-2xl pointer-events-auto">
+        <div className="flex items-center gap-5 lg:gap-6">
+          {navItems.map((item) => (
+            <a 
+              key={item.label} 
+              href={item.href}
+              onClick={(e) => handleNavClick(e, item.href)}
+              className="text-xs sm:text-[13px] md:text-sm font-medium text-white/70 hover:text-white hover:text-[var(--color-brand-primary)] transition-colors cursor-pointer"
+            >
+              {item.label}
+            </a>
+          ))}
         </div>
-        <div className="flex items-center gap-3 border-l border-white/10 pl-3 sm:pl-4">
+        <div className="flex items-center gap-3 border-l border-white/10 pl-4">
           <a 
             href="#contact"
             onClick={(e) => handleNavClick(e, '#contact')}
-            className="relative group overflow-hidden bg-[var(--color-brand-primary)] text-black px-3.5 sm:px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300 hover:shadow-[0_0_20px_rgba(204,255,0,0.4)] hover:scale-105 cursor-pointer"
+            className="relative group overflow-hidden bg-[var(--color-brand-primary)] text-black px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300 hover:shadow-[0_0_20px_rgba(204,255,0,0.4)] hover:scale-105 cursor-pointer"
           >
             <span className="relative z-10 flex items-center gap-1.5 whitespace-nowrap">
               Hire Me <ArrowUpRight className="w-3.5 h-3.5" />
@@ -74,6 +94,59 @@ export function Navbar() {
           </a>
         </div>
       </div>
+
+      {/* Mobile Compact Navbar Pill */}
+      <div className="flex md:hidden w-[calc(100vw-24px)] max-w-[360px] glass px-4 py-2.5 rounded-full items-center justify-between shadow-2xl border border-white/15 backdrop-blur-2xl pointer-events-auto">
+        <a 
+          href="#hero"
+          onClick={(e) => handleNavClick(e, '#hero')}
+          className="flex items-center gap-2 cursor-pointer group"
+        >
+          <span className="w-2 h-2 rounded-full bg-[var(--color-brand-primary)] animate-pulse group-hover:scale-125 transition-transform" />
+          <span className="font-mono text-xs font-bold tracking-wider text-white group-hover:text-[var(--color-brand-primary)] transition-colors">PORTFOLIO</span>
+        </a>
+
+        <div className="flex items-center gap-2">
+          <a 
+            href="#contact"
+            onClick={(e) => handleNavClick(e, '#contact')}
+            className="bg-[var(--color-brand-primary)] text-black px-3 py-1 rounded-full text-[11px] font-bold flex items-center gap-1 cursor-pointer whitespace-nowrap"
+          >
+            Hire Me <ArrowUpRight className="w-3 h-3" />
+          </a>
+
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="p-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors focus:outline-none cursor-pointer"
+            aria-label="Toggle navigation menu"
+          >
+            {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Animated Dropdown Drawer */}
+      {mobileMenuOpen && (
+        <motion.div
+          initial={{ opacity: 0, y: -8, scale: 0.96 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -8, scale: 0.96 }}
+          transition={{ duration: 0.2 }}
+          className="md:hidden mt-2 w-[calc(100vw-24px)] max-w-[360px] rounded-2xl bg-[#0a0a0e]/95 border border-white/15 p-3 shadow-2xl backdrop-blur-2xl pointer-events-auto flex flex-col gap-1"
+        >
+          {navItems.map((item) => (
+            <a
+              key={item.label}
+              href={item.href}
+              onClick={(e) => handleNavClick(e, item.href)}
+              className="px-3.5 py-2.5 rounded-xl text-xs font-medium text-white/80 hover:text-black hover:bg-[var(--color-brand-primary)] transition-all flex items-center justify-between cursor-pointer"
+            >
+              <span>{item.label}</span>
+              <ChevronRight className="w-3.5 h-3.5 opacity-50" />
+            </a>
+          ))}
+        </motion.div>
+      )}
     </motion.nav>
   );
 }
@@ -188,40 +261,40 @@ export function HeroConsole() {
       initial={{ opacity: 0, scale: 0.95, y: 20 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ duration: 0.7, delay: 0.2 }}
-      className="relative w-full max-w-xl mx-auto lg:max-w-none mt-8 lg:mt-0"
+      className="relative w-full max-w-full sm:max-w-xl mx-auto lg:max-w-none mt-8 lg:mt-0 min-w-0"
     >
       {/* Ambient Glow behind Console */}
       <div className="absolute -inset-1.5 rounded-[28px] bg-gradient-to-r from-[var(--color-brand-primary)]/20 via-[var(--color-brand-secondary)]/15 to-[var(--color-brand-accent)]/20 blur-2xl opacity-75 -z-10" />
 
       {/* Main Console Window */}
-      <div className="relative rounded-2xl bg-[#0a0c12]/95 border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.8)] overflow-hidden backdrop-blur-xl">
+      <div className="relative rounded-2xl bg-[#0a0c12]/95 border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.8)] overflow-hidden backdrop-blur-xl w-full max-w-full min-w-0">
         {/* Window Title Bar */}
-        <div className="flex items-center justify-between px-4 py-3 bg-white/[0.03] border-b border-white/5">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-[#ff5f56]/80" />
-            <div className="w-3 h-3 rounded-full bg-[#ffbd2e]/80" />
-            <div className="w-3 h-3 rounded-full bg-[#27c93f]/80" />
-            <span className="ml-2 font-mono text-[11px] text-white/40 hidden sm:inline">
+        <div className="flex items-center justify-between px-3 sm:px-4 py-2.5 sm:py-3 bg-white/[0.03] border-b border-white/5 min-w-0">
+          <div className="flex items-center gap-2 min-w-0">
+            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#ff5f56]/80 shrink-0" />
+            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#ffbd2e]/80 shrink-0" />
+            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#27c93f]/80 shrink-0" />
+            <span className="ml-1 sm:ml-2 font-mono text-[10px] sm:text-[11px] text-white/40 hidden xs:inline truncate">
               vijayalaya@node: ~/fullstack-core
             </span>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--color-brand-primary)] opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--color-brand-primary)]"></span>
             </span>
-            <span className="font-mono text-[10px] uppercase tracking-wider text-[var(--color-brand-primary)] font-semibold">
+            <span className="font-mono text-[9px] sm:text-[10px] uppercase tracking-wider text-[var(--color-brand-primary)] font-semibold whitespace-nowrap">
               Live Systems • Online
             </span>
           </div>
         </div>
 
         {/* Tab Buttons */}
-        <div className="flex items-center border-b border-white/5 bg-black/40 px-2 pt-2 gap-1 overflow-x-auto">
+        <div className="flex items-center border-b border-white/5 bg-black/40 px-2 pt-2 gap-1 overflow-x-auto w-full min-w-0">
           <button
             onClick={() => setActiveTab('architecture')}
             className={cn(
-              "px-3 py-1.5 rounded-t-lg font-mono text-xs transition-colors cursor-pointer whitespace-nowrap",
+              "px-2.5 sm:px-3 py-1.5 rounded-t-lg font-mono text-[11px] sm:text-xs transition-colors cursor-pointer whitespace-nowrap shrink-0",
               activeTab === 'architecture'
                 ? "bg-[#0a0c12] text-white border-t border-x border-white/10 font-medium text-[var(--color-brand-primary)]"
                 : "text-white/40 hover:text-white/80"
@@ -232,7 +305,7 @@ export function HeroConsole() {
           <button
             onClick={() => setActiveTab('ai-pipeline')}
             className={cn(
-              "px-3 py-1.5 rounded-t-lg font-mono text-xs transition-colors cursor-pointer whitespace-nowrap",
+              "px-2.5 sm:px-3 py-1.5 rounded-t-lg font-mono text-[11px] sm:text-xs transition-colors cursor-pointer whitespace-nowrap shrink-0",
               activeTab === 'ai-pipeline'
                 ? "bg-[#0a0c12] text-white border-t border-x border-white/10 font-medium text-cyan-300"
                 : "text-white/40 hover:text-white/80"
@@ -243,7 +316,7 @@ export function HeroConsole() {
           <button
             onClick={() => setActiveTab('security')}
             className={cn(
-              "px-3 py-1.5 rounded-t-lg font-mono text-xs transition-colors cursor-pointer whitespace-nowrap",
+              "px-2.5 sm:px-3 py-1.5 rounded-t-lg font-mono text-[11px] sm:text-xs transition-colors cursor-pointer whitespace-nowrap shrink-0",
               activeTab === 'security'
                 ? "bg-[#0a0c12] text-white border-t border-x border-white/10 font-medium text-yellow-300"
                 : "text-white/40 hover:text-white/80"
@@ -254,7 +327,7 @@ export function HeroConsole() {
         </div>
 
         {/* Console Code View */}
-        <div className="p-4 sm:p-5 font-mono text-xs leading-relaxed overflow-x-auto min-h-[220px]">
+        <div className="p-3.5 sm:p-5 font-mono text-[11px] sm:text-xs leading-relaxed overflow-x-auto min-h-[200px] w-full min-w-0">
           {activeTab === 'architecture' && (
             <div className="space-y-1">
               <p className="text-white/30">// Enterprise Telemetry & Distributed Nodes</p>
@@ -294,27 +367,27 @@ export function HeroConsole() {
         </div>
 
         {/* Live Metrics Footer Bar */}
-        <div className="grid grid-cols-3 border-t border-white/5 bg-black/60 px-4 py-3 text-center">
+        <div className="grid grid-cols-3 border-t border-white/5 bg-black/60 px-3 sm:px-4 py-2.5 sm:py-3 text-center">
           <div>
-            <div className="text-[11px] font-mono text-white/40">Response</div>
+            <div className="text-[10px] sm:text-[11px] font-mono text-white/40">Response</div>
             <div className="text-xs sm:text-sm font-bold text-[var(--color-brand-primary)]">&lt; 15ms</div>
           </div>
           <div className="border-x border-white/5">
-            <div className="text-[11px] font-mono text-white/40">Security</div>
+            <div className="text-[10px] sm:text-[11px] font-mono text-white/40">Security</div>
             <div className="text-xs sm:text-sm font-bold text-emerald-400">Hardened</div>
           </div>
           <div>
-            <div className="text-[11px] font-mono text-white/40">Delivery</div>
+            <div className="text-[10px] sm:text-[11px] font-mono text-white/40">Delivery</div>
             <div className="text-xs sm:text-sm font-bold text-cyan-400">End-to-End</div>
           </div>
         </div>
       </div>
 
-      {/* Floating Satellite Badges */}
-      <div className="hidden sm:flex absolute -top-4 -right-2 bg-black/90 backdrop-blur-md border border-[var(--color-brand-primary)]/40 px-3 py-1.5 rounded-full text-xs font-mono shadow-xl items-center gap-1.5 text-white">
+      {/* Floating Satellite Badges - only on lg screens */}
+      <div className="hidden lg:flex absolute -top-4 -right-2 bg-black/90 backdrop-blur-md border border-[var(--color-brand-primary)]/40 px-3 py-1.5 rounded-full text-xs font-mono shadow-xl items-center gap-1.5 text-white">
         <span className="text-[var(--color-brand-primary)]">⚡</span> GenAI & n8n Workflows
       </div>
-      <div className="hidden sm:flex absolute -bottom-4 -left-2 bg-black/90 backdrop-blur-md border border-cyan-400/40 px-3 py-1.5 rounded-full text-xs font-mono shadow-xl items-center gap-1.5 text-white">
+      <div className="hidden lg:flex absolute -bottom-4 -left-2 bg-black/90 backdrop-blur-md border border-cyan-400/40 px-3 py-1.5 rounded-full text-xs font-mono shadow-xl items-center gap-1.5 text-white">
         <span className="text-cyan-400">🏭</span> Siemens PLC & SCADA
       </div>
     </motion.div>
@@ -339,7 +412,7 @@ export function ProjectCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-30px" }}
       transition={{ duration: 0.45, delay: index * 0.08, ease: "easeOut" }}
-      className="group relative flex flex-col rounded-2xl bg-gradient-to-b from-[#0f1424]/90 via-[#0a0d18]/92 to-[#070912]/95 border border-white/12 hover:border-[var(--color-brand-primary)]/50 backdrop-blur-xl overflow-hidden transition-all duration-400 hover:shadow-[0_12px_45px_rgba(204,255,0,0.12)] hover:-translate-y-1"
+      className="group relative flex flex-col rounded-2xl bg-gradient-to-b from-[#0f1424] via-[#0a0d18] to-[#070912] border border-white/12 hover:border-[var(--color-brand-primary)]/50 overflow-hidden transition-all duration-300 hover:shadow-[0_12px_45px_rgba(204,255,0,0.12)] hover:-translate-y-1"
     >
       {/* Hover corner glow */}
       <div className="pointer-events-none absolute -inset-px rounded-2xl opacity-0 group-hover:opacity-100 transition duration-500 bg-gradient-to-br from-[var(--color-brand-primary)]/15 via-transparent to-[var(--color-brand-secondary)]/15 -z-10 blur-md" />
@@ -454,7 +527,7 @@ export function ServiceCard({ service, index }: { service: any; index: number; k
       whileInView={{ opacity: 1, scale: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.05, duration: 0.4 }}
-      className="relative p-8 rounded-3xl bg-gradient-to-br from-[#0e1424]/85 via-[#0a0d18]/90 to-[#070912]/95 border border-white/10 hover:border-[var(--color-brand-secondary)]/50 hover:shadow-[0_12px_40px_rgba(0,240,255,0.12)] transition-all duration-300 group overflow-hidden backdrop-blur-xl hover:-translate-y-1"
+      className="relative p-8 rounded-3xl bg-gradient-to-br from-[#0e1424] via-[#0a0d18] to-[#070912] border border-white/10 hover:border-[var(--color-brand-secondary)]/50 hover:shadow-[0_12px_40px_rgba(0,240,255,0.12)] transition-all duration-300 group overflow-hidden hover:-translate-y-1"
     >
       {/* Subtle internal gradient aura on hover */}
       <div className="absolute -top-16 -right-16 w-36 h-36 rounded-full bg-[var(--color-brand-secondary)]/15 blur-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" />

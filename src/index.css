@@ -18,10 +18,21 @@
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 5rem;
+    overflow-x: hidden;
+    max-width: 100vw;
   }
 
   body {
     @apply bg-[var(--background-dark)] text-white font-sans antialiased selection:bg-[var(--color-brand-primary)] selection:text-black;
+    overflow-x: hidden;
+    max-width: 100vw;
+    width: 100%;
+  }
+
+  #root {
+    overflow-x: hidden;
+    max-width: 100vw;
+    width: 100%;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -112,22 +123,46 @@
     border-color: rgba(0, 240, 255, 0.5);
   }
 }
-/* LightPillar crosswise / diagonal side-to-side slide */
-@keyframes pillarDiagonalSlide {
+/* LightPillar balanced, centered diagonal sway */
+@keyframes pillarCenteredSway {
   0% {
-    transform: translateX(-50%) translate3d(-70px, -24px, 0) rotate(-1.5deg);
+    transform: translate3d(-18px, -10px, 0) rotate(-0.5deg);
   }
   25% {
-    transform: translateX(-50%) translate3d(-20px, 14px, 0) rotate(0.6deg);
+    transform: translate3d(5px, 8px, 0) rotate(0.2deg);
   }
   50% {
-    transform: translateX(-50%) translate3d(70px, 24px, 0) rotate(1.5deg);
+    transform: translate3d(18px, 10px, 0) rotate(0.5deg);
   }
   75% {
-    transform: translateX(-50%) translate3d(20px, -14px, 0) rotate(-0.6deg);
+    transform: translate3d(-5px, -8px, 0) rotate(-0.2deg);
   }
   100% {
-    transform: translateX(-50%) translate3d(-70px, -24px, 0) rotate(-1.5deg);
+    transform: translate3d(-18px, -10px, 0) rotate(-0.5deg);
+  }
+}
+
+@media (max-width: 768px) {
+  @keyframes pillarCenteredSway {
+    0% {
+      transform: translate3d(-8px, -5px, 0) rotate(-0.25deg);
+    }
+    50% {
+      transform: translate3d(8px, 5px, 0) rotate(0.25deg);
+    }
+    100% {
+      transform: translate3d(-8px, -5px, 0) rotate(-0.25deg);
+    }
+  }
+}
+
+/* Backward compatibility alias */
+@keyframes pillarDiagonalSlide {
+  0%, 100% {
+    transform: translate3d(-18px, -10px, 0) rotate(-0.5deg);
+  }
+  50% {
+    transform: translate3d(18px, 10px, 0) rotate(0.5deg);
   }
 }
 
@@ -204,5 +239,11 @@
     radial-gradient(ellipse 75% 55% at 25% 25%, rgba(112, 0, 255, 0.14) 0%, transparent 65%),
     radial-gradient(ellipse 65% 45% at 75% 75%, rgba(0, 240, 255, 0.10) 0%, transparent 60%),
     linear-gradient(180deg, rgba(10, 12, 20, 0.55) 0%, rgba(5, 5, 5, 0.95) 100%);
+}
+
+.ambient-orb {
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
 }
 

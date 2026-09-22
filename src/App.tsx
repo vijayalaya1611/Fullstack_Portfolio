@@ -75,87 +75,90 @@ export default function App() {
 
       <main className="w-full pb-0 overflow-x-hidden">
         {/* HERO SECTION - Full-Width with Centered Content, Background Covers Navbar */}
-        <section id="hero" className="relative w-full min-h-screen pt-28 sm:pt-36 pb-16 lg:py-28 overflow-hidden flex items-center">
+        <section id="hero" className="relative w-full min-h-screen pt-24 sm:pt-32 md:pt-36 pb-16 lg:py-28 overflow-hidden flex items-center">
           {/* Authentic React Bits Ethereal Light Pillar Background covering Header & Navbar */}
-          <div 
-            className="absolute w-screen h-[125%] -top-6 pointer-events-none -z-10 overflow-hidden"
-            style={{ left: '50%', animation: 'pillarDiagonalSlide 14s ease-in-out infinite' }}
-          >
-            <LightPillar
-              topColor="#5227FF"
-              bottomColor="#FF9FFC"
-              intensity={1.0}
-              rotationSpeed={0.3}
-              glowAmount={0.005}
-              pillarWidth={3.0}
-              pillarHeight={0.4}
-              noiseIntensity={0.5}
-              pillarRotation={0}
-              interactive={false}
-              quality="high"
-              mixBlendMode="normal"
-            />
+          <div className="absolute inset-0 w-full h-[120%] -top-6 pointer-events-none -z-10 overflow-hidden [mask-image:radial-gradient(ellipse_80%_80%_at_50%_40%,black_40%,transparent_90%)]">
+            <div 
+              className="w-full h-full"
+              style={{ animation: 'pillarCenteredSway 14s ease-in-out infinite' }}
+            >
+              <LightPillar
+                topColor="#5227FF"
+                bottomColor="#FF9FFC"
+                intensity={0.9}
+                rotationSpeed={0.3}
+                glowAmount={0.004}
+                pillarWidth={2.8}
+                pillarHeight={0.4}
+                noiseIntensity={0.5}
+                pillarRotation={0}
+                interactive={false}
+                quality="high"
+                mixBlendMode="screen"
+              />
+            </div>
             {/* Seamless gradient fade-out at bottom into About section */}
             <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-[var(--background-dark)] via-[var(--background-dark)]/70 to-transparent pointer-events-none" />
           </div>
 
-          <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 grid lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
+          <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10 min-w-0 max-w-full">
             {/* Left Column: Headline, Bio & CTAs */}
             <motion.div
               initial={{ opacity: 0, y: 25 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7 }}
-              className="lg:col-span-7 flex flex-col items-start"
+              className="lg:col-span-7 flex flex-col items-start w-full min-w-0 max-w-full"
             >
               {/* Live Availability Badge with Animated Pulse */}
-              <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-md mb-6">
-                <span className="relative flex h-2.5 w-2.5">
+              <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-md mb-5 sm:mb-6 max-w-full">
+                <span className="relative flex h-2 w-2 sm:h-2.5 sm:w-2.5 shrink-0">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--color-brand-primary)] opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[var(--color-brand-primary)]"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 sm:h-2.5 sm:w-2.5 bg-[var(--color-brand-primary)]"></span>
                 </span>
-                <span className="font-mono text-xs md:text-sm text-[var(--color-brand-primary)] tracking-wider uppercase font-semibold">
-                  Available for high-impact projects & engineering roles
+                <span className="font-mono text-[10px] sm:text-xs md:text-sm text-[var(--color-brand-primary)] tracking-wider uppercase font-semibold">
+                  <span className="hidden sm:inline">Available for High-Impact Projects & Roles</span>
+                  <span className="sm:hidden">Available for Projects & Roles</span>
                 </span>
               </div>
 
               {/* Hero Main Header */}
-              <h1 className="text-4xl sm:text-6xl md:text-7xl font-black mb-6 leading-[0.95] tracking-tighter">
+              <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-5 sm:mb-6 leading-[1.08] tracking-tight sm:tracking-tighter break-words max-w-full">
                 Hi, I'm{' '}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-[var(--color-brand-primary)]">
                   {PERSONAL_INFO.name.split(' ')[0]}
                 </span>
                 <br />
-                <span className="text-white/30 text-3xl sm:text-5xl md:text-6xl block mt-2">
+                <span className="text-white/30 text-2xl sm:text-4xl md:text-5xl lg:text-6xl block mt-1.5 sm:mt-2">
                   {PERSONAL_INFO.role}
                 </span>
               </h1>
 
-              <p className="max-w-2xl text-base sm:text-lg md:text-xl text-white/65 mb-8 leading-relaxed font-light">
+              <p className="max-w-2xl text-sm sm:text-base md:text-xl text-white/65 mb-6 sm:mb-8 leading-relaxed font-light break-words w-full">
                 {PERSONAL_INFO.headline}
               </p>
 
               {/* CTA Buttons */}
-              <div className="flex flex-wrap items-center gap-4 mb-8">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 mb-8 w-full sm:w-auto max-w-full">
                 <a 
                   href="#projects" 
-                  className="group bg-[var(--color-brand-primary)] text-black px-7 py-3.5 rounded-full font-bold flex items-center gap-2 hover:shadow-[0_0_30px_rgba(204,255,0,0.4)] hover:scale-105 transition-all duration-300 text-sm md:text-base"
+                  className="group justify-center bg-[var(--color-brand-primary)] text-black px-6 sm:px-7 py-3 sm:py-3.5 rounded-full font-bold flex items-center gap-2 hover:shadow-[0_0_30px_rgba(204,255,0,0.4)] hover:scale-105 transition-all duration-300 text-sm md:text-base text-center"
                 >
                   Explore Enterprise Work
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
                 </a>
                 <a 
                   href="#contact" 
-                  className="px-7 py-3.5 rounded-full font-bold border border-white/15 bg-white/[0.03] backdrop-blur-md hover:bg-white/10 hover:border-white/30 transition-all duration-300 text-sm md:text-base"
+                  className="justify-center px-6 sm:px-7 py-3 sm:py-3.5 rounded-full font-bold border border-white/15 bg-white/[0.03] backdrop-blur-md hover:bg-white/10 hover:border-white/30 transition-all duration-300 text-sm md:text-base text-center"
                 >
                   Let's Connect
                 </a>
               </div>
 
               {/* Quick Tech Highlights Badge Bar */}
-              <div className="flex flex-wrap items-center gap-2 pt-4 border-t border-white/5 text-xs font-mono text-white/50 w-full">
-                <span className="text-[var(--color-brand-primary)] font-semibold">Core Stack:</span>
+              <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 pt-4 border-t border-white/5 text-[11px] sm:text-xs font-mono text-white/50 w-full max-w-full">
+                <span className="text-[var(--color-brand-primary)] font-semibold shrink-0 mr-1">Core Stack:</span>
                 {['React.js', 'Python', 'PostgreSQL', 'Siemens PLC & SCADA', 'OWASP ZAP', 'GenAI Agents', 'n8n'].map((tag) => (
-                  <span key={tag} className="px-2.5 py-1 rounded-md bg-white/[0.03] border border-white/5 text-white/70">
+                  <span key={tag} className="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md bg-white/[0.03] border border-white/5 text-white/70 whitespace-nowrap">
                     {tag}
                   </span>
                 ))}
@@ -163,7 +166,7 @@ export default function App() {
             </motion.div>
 
             {/* Right Column: Interactive System Architecture & Engineering Console */}
-            <div className="lg:col-span-5 w-full flex justify-center items-center">
+            <div className="lg:col-span-5 w-full min-w-0 max-w-full flex justify-center items-center">
               <HeroConsole />
             </div>
           </div>
@@ -179,12 +182,12 @@ export default function App() {
 
           {/* Living ambient glowing elements with diagonal drift */}
           <div 
-            className="absolute -top-16 -right-16 w-[500px] h-[500px] rounded-full bg-gradient-to-bl from-[var(--color-brand-accent)]/20 via-[var(--color-brand-secondary)]/10 to-transparent blur-[120px] pointer-events-none" 
-            style={{ animation: 'ambientDiagonalDrift 14s ease-in-out infinite' }} 
+            className="ambient-orb absolute -top-16 -right-16 w-[420px] h-[420px] rounded-full bg-gradient-to-bl from-[var(--color-brand-accent)]/20 via-[var(--color-brand-secondary)]/10 to-transparent blur-[70px] pointer-events-none" 
+            style={{ animation: 'ambientDiagonalDrift 16s ease-in-out infinite' }} 
           />
           <div 
-            className="absolute -bottom-20 -left-20 w-[450px] h-[450px] rounded-full bg-gradient-to-tr from-[var(--color-brand-primary)]/15 via-[var(--color-brand-accent)]/10 to-transparent blur-[110px] pointer-events-none" 
-            style={{ animation: 'ambientDiagonalDriftAlt 16s ease-in-out infinite' }} 
+            className="ambient-orb absolute -bottom-20 -left-20 w-[380px] h-[380px] rounded-full bg-gradient-to-tr from-[var(--color-brand-primary)]/15 via-[var(--color-brand-accent)]/10 to-transparent blur-[65px] pointer-events-none" 
+            style={{ animation: 'ambientDiagonalDriftAlt 18s ease-in-out infinite' }} 
           />
 
           <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 relative z-10 grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -225,12 +228,12 @@ export default function App() {
 
           {/* Living ambient glowing elements with diagonal drift */}
           <div 
-            className="absolute top-10 -left-20 w-[550px] h-[550px] rounded-full bg-gradient-to-br from-[var(--color-brand-secondary)]/18 via-[var(--color-brand-accent)]/10 to-transparent blur-[120px] pointer-events-none" 
-            style={{ animation: 'ambientDiagonalDrift 15s ease-in-out infinite' }} 
+            className="ambient-orb absolute top-10 -left-20 w-[450px] h-[450px] rounded-full bg-gradient-to-br from-[var(--color-brand-secondary)]/18 via-[var(--color-brand-accent)]/10 to-transparent blur-[75px] pointer-events-none" 
+            style={{ animation: 'ambientDiagonalDrift 18s ease-in-out infinite' }} 
           />
           <div 
-            className="absolute -bottom-16 -right-16 w-[480px] h-[480px] rounded-full bg-gradient-to-tl from-[var(--color-brand-primary)]/14 via-[var(--color-brand-secondary)]/10 to-transparent blur-[110px] pointer-events-none" 
-            style={{ animation: 'ambientDiagonalDriftAlt 13s ease-in-out infinite' }} 
+            className="ambient-orb absolute -bottom-16 -right-16 w-[400px] h-[400px] rounded-full bg-gradient-to-tl from-[var(--color-brand-primary)]/14 via-[var(--color-brand-secondary)]/10 to-transparent blur-[65px] pointer-events-none" 
+            style={{ animation: 'ambientDiagonalDriftAlt 16s ease-in-out infinite' }} 
           />
 
           <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 relative z-10">
@@ -273,12 +276,12 @@ export default function App() {
 
           {/* Living ambient glowing elements */}
           <div 
-            className="absolute -top-10 -right-20 w-[500px] h-[500px] rounded-full bg-gradient-to-bl from-[var(--color-brand-accent)]/20 via-[var(--color-brand-primary)]/10 to-transparent blur-[120px] pointer-events-none" 
-            style={{ animation: 'ambientDiagonalDrift 14s ease-in-out infinite' }} 
+            className="ambient-orb absolute -top-10 -right-20 w-[420px] h-[420px] rounded-full bg-gradient-to-bl from-[var(--color-brand-accent)]/20 via-[var(--color-brand-primary)]/10 to-transparent blur-[70px] pointer-events-none" 
+            style={{ animation: 'ambientDiagonalDrift 18s ease-in-out infinite' }} 
           />
           <div 
-            className="absolute bottom-10 -left-20 w-[460px] h-[460px] rounded-full bg-gradient-to-tr from-[var(--color-brand-secondary)]/16 via-transparent to-transparent blur-[110px] pointer-events-none" 
-            style={{ animation: 'ambientDiagonalDriftAlt 17s ease-in-out infinite' }} 
+            className="ambient-orb absolute bottom-10 -left-20 w-[380px] h-[380px] rounded-full bg-gradient-to-tr from-[var(--color-brand-secondary)]/16 via-transparent to-transparent blur-[65px] pointer-events-none" 
+            style={{ animation: 'ambientDiagonalDriftAlt 19s ease-in-out infinite' }} 
           />
 
           <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 relative z-10">
@@ -295,7 +298,7 @@ export default function App() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.08 }}
-                  className="p-6 rounded-2xl bg-gradient-to-br from-[#0f1424]/85 via-[#0a0d18]/90 to-[#070912]/95 border border-white/10 hover:border-[var(--color-brand-primary)]/40 backdrop-blur-xl transition-all duration-300 shadow-md hover:shadow-[0_10px_30px_rgba(204,255,0,0.08)] hover:-translate-y-1"
+                  className="p-6 rounded-2xl bg-gradient-to-br from-[#0f1424] via-[#0a0d18] to-[#070912] border border-white/10 hover:border-[var(--color-brand-primary)]/40 transition-all duration-300 shadow-md hover:shadow-[0_10px_30px_rgba(204,255,0,0.08)] hover:-translate-y-1"
                 >
                   <div className="flex items-center gap-3 mb-5">
                     <div className="p-2.5 rounded-xl bg-white/[0.05] border border-white/10">
@@ -335,12 +338,12 @@ export default function App() {
 
           {/* Living ambient glowing elements with diagonal drift */}
           <div 
-            className="absolute top-16 -left-28 w-[600px] h-[600px] rounded-full bg-gradient-to-br from-[var(--color-brand-primary)]/16 via-[var(--color-brand-secondary)]/12 to-transparent blur-[130px] pointer-events-none" 
-            style={{ animation: 'ambientDiagonalDrift 16s ease-in-out infinite' }} 
+            className="ambient-orb absolute top-16 -left-28 w-[480px] h-[480px] rounded-full bg-gradient-to-br from-[var(--color-brand-primary)]/16 via-[var(--color-brand-secondary)]/12 to-transparent blur-[75px] pointer-events-none" 
+            style={{ animation: 'ambientDiagonalDrift 18s ease-in-out infinite' }} 
           />
           <div 
-            className="absolute bottom-20 -right-24 w-[550px] h-[550px] rounded-full bg-gradient-to-tl from-[var(--color-brand-secondary)]/16 via-[var(--color-brand-accent)]/14 to-transparent blur-[130px] pointer-events-none" 
-            style={{ animation: 'ambientDiagonalDriftAlt 15s ease-in-out infinite' }} 
+            className="ambient-orb absolute bottom-20 -right-24 w-[450px] h-[450px] rounded-full bg-gradient-to-tl from-[var(--color-brand-secondary)]/16 via-[var(--color-brand-accent)]/14 to-transparent blur-[70px] pointer-events-none" 
+            style={{ animation: 'ambientDiagonalDriftAlt 17s ease-in-out infinite' }} 
           />
 
           <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 relative z-10">
@@ -394,7 +397,7 @@ export default function App() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="max-w-5xl mx-auto rounded-3xl bg-gradient-to-r from-white/[0.04] via-white/[0.06] to-white/[0.04] border border-white/15 p-8 sm:p-10 flex flex-col sm:flex-row items-center justify-between gap-6 backdrop-blur-xl shadow-xl mt-10"
+              className="max-w-5xl mx-auto rounded-2xl sm:rounded-3xl bg-[#0c101c] border border-white/15 p-6 sm:p-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 shadow-xl mt-10"
             >
               <div>
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--color-brand-primary)]/10 border border-[var(--color-brand-primary)]/25 text-[var(--color-brand-primary)] text-xs font-mono font-medium mb-3">
@@ -428,12 +431,12 @@ export default function App() {
 
           {/* Living ambient glowing elements */}
           <div 
-            className="absolute top-10 -left-20 w-[500px] h-[500px] rounded-full bg-gradient-to-br from-[var(--color-brand-accent)]/18 via-[var(--color-brand-secondary)]/10 to-transparent blur-[120px] pointer-events-none" 
-            style={{ animation: 'ambientDiagonalDrift 15s ease-in-out infinite' }} 
+            className="ambient-orb absolute top-10 -left-20 w-[420px] h-[420px] rounded-full bg-gradient-to-br from-[var(--color-brand-accent)]/18 via-[var(--color-brand-secondary)]/10 to-transparent blur-[70px] pointer-events-none" 
+            style={{ animation: 'ambientDiagonalDrift 18s ease-in-out infinite' }} 
           />
           <div 
-            className="absolute -bottom-16 -right-16 w-[450px] h-[450px] rounded-full bg-gradient-to-tl from-[var(--color-brand-primary)]/14 via-transparent to-transparent blur-[110px] pointer-events-none" 
-            style={{ animation: 'ambientDiagonalDriftAlt 17s ease-in-out infinite' }} 
+            className="ambient-orb absolute -bottom-16 -right-16 w-[380px] h-[380px] rounded-full bg-gradient-to-tl from-[var(--color-brand-primary)]/14 via-transparent to-transparent blur-[65px] pointer-events-none" 
+            style={{ animation: 'ambientDiagonalDriftAlt 19s ease-in-out infinite' }} 
           />
 
           <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 relative z-10 grid md:grid-cols-2 gap-16 lg:gap-20">
@@ -487,12 +490,12 @@ export default function App() {
           />
 
           <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 relative z-10">
-            <div className="glass rounded-[40px] p-8 sm:p-12 md:p-16 lg:p-20 overflow-hidden relative border border-white/15 shadow-[0_20px_60px_rgba(0,0,0,0.6)]">
+            <div className="glass rounded-3xl sm:rounded-[40px] p-6 sm:p-12 md:p-16 lg:p-20 overflow-hidden relative border border-white/15 shadow-[0_20px_60px_rgba(0,0,0,0.6)]">
               <div className="absolute top-0 right-0 w-[350px] h-[350px] bg-gradient-to-br from-[var(--color-brand-primary)]/15 to-[var(--color-brand-secondary)]/10 blur-[100px] rounded-full -translate-y-1/2 translate-x-1/2 pointer-events-none" />
               
               <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 relative z-10">
                 <div>
-                  <h2 className="text-4xl sm:text-5xl md:text-7xl font-black mb-8 leading-tight">
+                  <h2 className="text-3xl sm:text-5xl md:text-7xl font-black mb-8 leading-tight">
                     Let's build <br />
                     something <span className="text-[var(--color-brand-primary)]">great</span>.
                   </h2>

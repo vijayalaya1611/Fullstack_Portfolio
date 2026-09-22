@@ -1,6 +1,7 @@
 import express from "express";
 import { createServer as createViteServer } from "vite";
 import path from "path";
+import os from "os";
 import { Resend } from 'resend';
 import dotenv from 'dotenv';
 
@@ -78,8 +79,34 @@ async function startServer() {
     });
   }
 
+function getLocalIp(): string | null {
+  const interfaces = os.networkInterfaces();
+  const validIps: string[] = [];
+
+  for (const name of Object.keys(interfaces)) {
+    for (const iface of interfaces[name] || []) {
+      // Ignore IPv6, internal loopback (127.0.0.1), and link-local autoconfigured addresses (169.254.x.x)
+      if (iface.family === 'IPv4' && !iface.internal && !iface.address.startsWith('169.254.')) {
+        // Prioritize standard local router subnets (192.168.x.x, 10.x.x.x, 172.16-31.x.x)
+        if (iface.address.startsWith('192.168.') || iface.address.startsWith('10.')) {
+          return iface.address;
+        }
+        validIps.push(iface.address);
+      }
+    }
+  }
+  return validIps[0] || null;
+}
+
   app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+    const localIp = getLocalIp();
+    console.log(`\n  🚀 Portfolio dev server running:`);
+    console.log(`  ➜  Local:   http://localhost:${PORT}/`);
+    if (localIp) {
+      console.log(`  ➜  Network: http://${localIp}:${PORT}/\n`);
+    } else {
+      console.log(`  ➜  Network: http://0.0.0.0:${PORT}/\n`);
+    }
   });
 }
 
